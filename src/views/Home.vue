@@ -11,9 +11,6 @@
       <v-col cols="3">
         <courseModal courseTitle="Car Battery spot welder" imageName="spotwelder" :instructorList='["A", "B", "C", "D"]' :isheadlight="true"/>
       </v-col>
-      <v-col cols="3">
-        <courseModal courseTitle="DIY cycle headlight" imageName="headlight" :instructorList='["A", "B", "C", "D"]' :isheadlight="true"/>
-      </v-col>
     </v-row>
     <v-row class="ma-0 ml-2">
       <v-icon large>mdi-cog</v-icon>
@@ -37,7 +34,6 @@ export default {
   data: () => ({
     electronicsCourseList: [
               {title: "Breadboard PC", image: "computer", instructors:["A", "B", "C", "D"]},
-              {title: "Amazon Alexa", image: "alexa", instructors:["A", "B", "C", "D"]},
       ],
     hardwareCourseList:[
       {title: "Homemade forge", image:"forging", instructors:["A", "B", "C", "D"]},
