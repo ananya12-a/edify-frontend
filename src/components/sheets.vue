@@ -1,13 +1,30 @@
 <template>
     <div>
         <h1 class="white--text">{{sheetName}}</h1>
-        <div
+        <v-progress-circular v-if="loading"
+            :size="50"
+            color="secondary"
+            indeterminate
+        ></v-progress-circular>
+        <div v-else>
+            <youtube player-width="1000" :player-height="360/640*1000" :video-id="rows[currentVidNum-1].data" v-if="rows[currentVidNum-1].ifLink=='TRUE'"></youtube>
+            <span v-else v-html="rows[currentVidNum-1].data"></span>
+            <v-pagination
+                v-model="currentVidNum"
+                :length="rows.length"
+                :total-visible="7"
+                color="secondary"
+            >
+            </v-pagination>
+        </div>
+        
+        <!--<div
         v-for="row in rows"
         :key="row.data" 
         >
             <youtube :video-id="row.data" v-if="row.ifLink=='TRUE'"></youtube>
             <span v-else v-html="row.data"></span>
-        </div>
+        </div>-->
     </div>
     <!--<v-simple-table>
         <template v-slot:default>
@@ -34,11 +51,13 @@ const creds = require('@/components/edify-345610-1d5e47062229.json');
 		data() {
 			return {
 				rows: [],
-				loading: true,
+				loading: false,
+                currentVidNum:1,
 			}
 		},
 		methods:{
 			async accessSpreadSheet() {
+                this.loading = true
 				const doc = new GoogleSpreadsheet('11Vl0CGbM1GbUh3HqMTYkkOaghRplYtKqxqks-xtj4V0');
 				await doc.useServiceAccountAuth(creds);
 				await doc.loadInfo(); 
@@ -68,6 +87,7 @@ const creds = require('@/components/edify-345610-1d5e47062229.json');
                 this.rows = dataRow
                 // read/write row values
                 console.log(dataRow[0].data); // 'Larry Page'
+                this.loading = false
 			}
 		},
 		created() {
