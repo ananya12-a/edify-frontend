@@ -1,45 +1,61 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      class="pt-4"
-      mini-variant
-    >
-      <v-avatar
-        v-for="n in 6"
-        :key="n"
-        :color="`grey ${n === 1 ? 'darken' : 'lighten'}-1`"
-        :size="n === 1 ? 36 : 20"
-        class="d-block text-center mx-auto mb-9"
-      ></v-avatar>
-    </v-navigation-drawer>
+    <v-card>
+      <v-layout>
+        <v-navigation-drawer
+          v-model="drawer"
+          :rail="rail"
+          permanent
+          @click="rail = false"
+        >
+          <v-list-item
+            prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
+            title="Beta User"
+          >
+            <template v-slot:append>
+              <v-btn
+                variant="text"
+                icon="mdi-chevron-left"
+                @click.stop="rail = !rail"
+              ></v-btn>
+            </template>
+          </v-list-item>
 
-    <v-main class="ma-2">
-      <router-view/>
-    </v-main>
+          <v-divider></v-divider>
+
+          <v-list density="compact" nav>
+            <v-list-item v-for="item in items" v-bind:key="item.title" :prepend-icon="item.icon" :title="item.title" :value="item.value"></v-list-item>
+          </v-list>
+        </v-navigation-drawer>
+        <v-main>
+          <router-view/>
+        </v-main>
+      </v-layout>
+    </v-card>
   </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import { defineComponent } from 'vue'
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default defineComponent({
+  name: 'App',
+  data () {
+    return {
+      drawer: true,
+      items: [
+        { title: 'Home', icon: 'mdi-home-city', value: 'home' },
+        { title: 'My Account', icon: 'mdi-account', value: 'account' },
+        { title: 'Users', icon: 'mdi-account-group-outline', value: 'users' }
+      ],
+      rail: true
     }
   }
+})
+</script>
+
+<style>
+body{
+  font-family: 'Montserrat', sans-serif;
 }
 </style>
